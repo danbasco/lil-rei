@@ -140,7 +140,7 @@ async def on_command_error(ctx, error):
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        await ctx.reply(f"O comando {ctx.message} não foi encontrado!")
+        await ctx.reply(f"O comando não foi encontrado!")
 
 
 ##TOKEN

@@ -60,7 +60,22 @@ class Fun(commands.Cog):
         embed.set_footer(text= f"Solicitado por {ctx.author.display_name}", icon_url= ctx.author.avatar_url)
 
         embed.set_image(url= image)
-        await ctx.send(embed=embed)
+        msg = await ctx.send(embed=embed)
+
+        await msg.add_reaction(':kiss:')
+
+        def check(reaction, member):
+            return member == user and reaction.emoji == ':kiss:'
+
+        try:
+            reaction, member = await self.client.wait_for('reaction_add', timeout=60.0, check=check)
+            
+        except asyncio.TimeoutError:
+            ...
+        
+        else:
+            await ctx.send(embed=embed)
+            
 
     @fala_command.error
     async def fala_command_error(self, ctx, error):
