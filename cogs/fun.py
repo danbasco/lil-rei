@@ -62,10 +62,10 @@ class Fun(commands.Cog):
         embed.set_image(url= image)
         msg = await ctx.send(embed=embed)
 
-        await msg.add_reaction(':kiss:')
+        await msg.add_reaction('💋')
 
         def check(reaction, member):
-            return member == user and reaction.emoji == ':kiss:'
+            return member == user and reaction.emoji == '💋'
 
         try:
             reaction, member = await self.client.wait_for('reaction_add', timeout=60.0, check=check)
@@ -74,8 +74,19 @@ class Fun(commands.Cog):
             ...
         
         else:
-            await ctx.send(embed=embed)
             
+            cur.execute('''SELECT kiss FROM Photos ORDER BY RANDOM() LIMIT 1''')
+            image = cur.fetchone()[0]
+            
+            embed = discord.Embed(
+            description=f"<@{user.id}> beijou <@{ctx.author.id}>!",
+            colour= my_colour,
+            timestamp= dt.datetime.utcnow()
+            )
+            embed.set_footer(text= f"Solicitado por {ctx.author.display_name}", icon_url= ctx.author.avatar_url)
+
+            embed.set_image(url= image)
+            msg = await ctx.send(embed=embed)
 
     @fala_command.error
     async def fala_command_error(self, ctx, error):
